@@ -30,6 +30,8 @@ namespace Talabat.APIs
             #endregion
 
             var app = webApplicationBuilder.Build();
+
+            #region Update Database
             var scope = app.Services.CreateAsyncScope();
             var services = scope.ServiceProvider;
             var dbContext = services.GetRequiredService<StoreContext>();
@@ -40,14 +42,16 @@ namespace Talabat.APIs
             try
             {
                 var pendingMigrations = dbContext.Database.GetPendingMigrations();
-                if(pendingMigrations.Any())
+                if (pendingMigrations.Any())
                     await dbContext.Database.MigrateAsync();
+                await StoreContextSeed.SeedAsync(dbContext);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 var logger = loggerFactory.CreateLogger<Program>();
-                logger.LogError(ex, "an error has been occurud during applying the migrations.");
-            }
+                logger.LogError(ex, "an error has been occurud during applying the migrations or the data seeding.");
+            } 
+            #endregion  
 
             #region Configure Kestrel Middleware
 
