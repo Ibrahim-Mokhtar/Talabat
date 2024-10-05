@@ -1,0 +1,11 @@
+@HostAddress = https://localhost:7151
+
+GET {{HostAddress}}/api/weatherforecast
+Accept: application/json
+
+###
+
+GET {{HostAddress}}/api/weatherforecast
+Accept: application/json
+
+###
