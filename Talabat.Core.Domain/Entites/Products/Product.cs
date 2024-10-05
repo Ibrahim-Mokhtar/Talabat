@@ -3,10 +3,11 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Talabat.Core.Domain.Common;
 
 namespace Talabat.Core.Domain.Entites.Products
 {
-    public class Product
+    public class Product:BaseEntity<int>
     {
         public required string Name { get; set; }
         public required string Description { get; set; }
@@ -16,6 +17,7 @@ namespace Talabat.Core.Domain.Entites.Products
         public int? BrandId { get; set; }
         public virtual ProductBrand? Brand { get; set; } // Foriegn Key --> ProductBrand Entity
         public int? CategoryId { get; set; }
-        public virtual ProductCategory? Category { get; set; // Foriegn Key --> ProductCategory Entity
-        }
+        public virtual ProductCategory? Category { get; set; } // Foriegn Key --> ProductCategory Entity
+
+    }
 }
