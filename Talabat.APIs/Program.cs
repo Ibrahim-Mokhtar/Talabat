@@ -1,5 +1,7 @@
 
 using Microsoft.EntityFrameworkCore;
+using Talabat.APIs.Extensions;
+using Talabat.Core.Domain.Contracts;
 using Talabat.Infrastructure.Presistence;
 using Talabat.Infrastructure.Presistence.Data;
 
@@ -31,26 +33,8 @@ namespace Talabat.APIs
 
             var app = webApplicationBuilder.Build();
 
-            #region Update Database
-            var scope = app.Services.CreateAsyncScope();
-            var services = scope.ServiceProvider;
-            var dbContext = services.GetRequiredService<StoreContext>();
-            // Ask Runtime Env an Object from "StoreContext" Services Explicitly 
-
-            var loggerFactory = services.GetRequiredService<ILoggerFactory>();
-            //var logger = services.GetRequiredService<ILogger<Program>>();
-            try
-            {
-                var pendingMigrations = dbContext.Database.GetPendingMigrations();
-                if (pendingMigrations.Any())
-                    await dbContext.Database.MigrateAsync();
-                await StoreContextSeed.SeedAsync(dbContext);
-            }
-            catch (Exception ex)
-            {
-                var logger = loggerFactory.CreateLogger<Program>();
-                logger.LogError(ex, "an error has been occurud during applying the migrations or the data seeding.");
-            } 
+            #region Database Initialization
+            await app.InitializerStoreContextAsync();
             #endregion  
 
             #region Configure Kestrel Middleware

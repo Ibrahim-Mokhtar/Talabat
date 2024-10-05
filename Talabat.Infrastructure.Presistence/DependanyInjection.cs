@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Talabat.Core.Domain.Contracts;
 using Talabat.Infrastructure.Presistence.Data;
 
 namespace Talabat.Infrastructure.Presistence
@@ -12,6 +13,7 @@ namespace Talabat.Infrastructure.Presistence
             {
                 optionBuilder.UseSqlServer(configuration.GetConnectionString("StoreContext"));
             });
+            services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreContextInitializer));
             return services;
         }   
     }
