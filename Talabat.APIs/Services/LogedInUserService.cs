@@ -8,9 +8,9 @@ namespace Talabat.APIs.Services
         private readonly IHttpContextAccessor? _httpContextAccessor;
         public string? UserId { get; }
 
-        public LogedInUserService(IHttpContextAccessor httpContextAccessor)
+        public LogedInUserService(/*IHttpContextAccessor httpContextAccessor*/)
         {
-            _httpContextAccessor = httpContextAccessor;
+            //_httpContextAccessor = httpContextAccessor;
             UserId = _httpContextAccessor?.HttpContext?.User.FindFirstValue(ClaimTypes.NameIdentifier);
         }
 

@@ -11,7 +11,7 @@ namespace Talabat.Core.Domain.Contracts
         where TKey : IEquatable<TKey>
     {
         Task<IEnumerable<TEntity>> GetAllAsync(bool WithTracking = false);
-        Task<TEntity> Get(TKey? id);
+        Task<TEntity> GetAsync(TKey? id);
         Task AddAsync(TEntity entity);
         void Update(TEntity entity);
         void Delete(TEntity entity);

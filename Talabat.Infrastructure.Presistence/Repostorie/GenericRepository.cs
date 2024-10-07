@@ -16,7 +16,7 @@ namespace Talabat.Infrastructure.Presistence.Repostorie
     {
         public async Task<IEnumerable<TEntity>> GetAllAsync(bool WithTracking = false)
        => WithTracking ? await DbContext.Set<TEntity>().ToListAsync() : await DbContext.Set<TEntity>().AsTracking().ToListAsync();
-        public async Task<TEntity?> Get(Tkey id) => await DbContext.Set<TEntity>().FindAsync(id);
+        public async Task<TEntity?> GetAsync(Tkey id) => await DbContext.Set<TEntity>().FindAsync(id);
 
         public async Task AddAsync(TEntity entity) => await DbContext.Set<TEntity>().AddAsync(entity);
 

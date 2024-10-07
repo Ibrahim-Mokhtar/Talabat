@@ -15,6 +15,9 @@ namespace Talabat.Infrastructure.Presistence
             {
                 optionBuilder.UseSqlServer(configuration.GetConnectionString("StoreContext"));
             });
+
+            services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork.UnitOfWork));
+
             services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreContextInitializer));
 
             services.AddScoped(typeof(ISaveChangesInterceptor), typeof(BaseAuditableEntityInterceptor));

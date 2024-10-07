@@ -1,11 +1,8 @@
-
-using Microsoft.EntityFrameworkCore;
 using Talabat.APIs.Extensions;
 using Talabat.APIs.Services;
 using Talabat.Core.Application.Abstraction;
-using Talabat.Core.Domain.Contracts;
 using Talabat.Infrastructure.Presistence;
-using Talabat.Infrastructure.Presistence.Data;
+using Talabat.Core.Application;
 
 namespace Talabat.APIs
 {
@@ -22,7 +19,8 @@ namespace Talabat.APIs
 
             // Add services to the container.
 
-            webApplicationBuilder.Services.AddControllers(); // Register Required Services by ASP.NET Core Web APIs to DI Container
+            webApplicationBuilder.Services.AddControllers()
+                .AddApplicationPart(typeof(Controllers.AssemblyInformation).Assembly); // Register Required Services by ASP.NET Core Web APIs to DI Container
 
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -30,6 +28,7 @@ namespace Talabat.APIs
             webApplicationBuilder.Services.AddSwaggerGen();
 
             webApplicationBuilder.Services.AddPersistanceServices(webApplicationBuilder.Configuration);
+            webApplicationBuilder.Services.AddApplicationServices();
 
             webApplicationBuilder.Services.AddScoped(typeof(ILogedInUserService), typeof(LogedInUserService));
 
