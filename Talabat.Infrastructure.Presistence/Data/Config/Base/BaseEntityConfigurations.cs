@@ -10,7 +10,7 @@ using Talabat.Core.Domain.Common;
 namespace Talabat.Infrastructure.Presistence.Data.Config.Base
 {
     internal class BaseEntityConfigurations<TEntity, TKey> : IEntityTypeConfiguration<TEntity>
-        where TEntity : BaseEntity<TKey> where TKey : IEquatable<TKey>
+        where TEntity : BaseAuditableEntity<TKey> where TKey : IEquatable<TKey>
     {
         public virtual void Configure(EntityTypeBuilder<TEntity> builder)
         {

@@ -11,7 +11,7 @@ using Talabat.Infrastructure.Presistence.Data;
 namespace Talabat.Infrastructure.Presistence.Repostorie
 {
     public class GenericRepository<TEntity, Tkey>(StoreContext DbContext) : IGenericRepository<TEntity, Tkey>
-        where TEntity : BaseEntity<Tkey>
+        where TEntity : BaseAuditableEntity<Tkey>
         where Tkey : IEquatable<Tkey>
     {
         public async Task<IEnumerable<TEntity>> GetAllAsync(bool WithTracking = false)

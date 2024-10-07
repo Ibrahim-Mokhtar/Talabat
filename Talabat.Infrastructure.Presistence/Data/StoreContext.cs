@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Talabat.Core.Domain.Common;
 using Talabat.Core.Domain.Entites.Products;
 
 namespace Talabat.Infrastructure.Presistence.Data
@@ -13,8 +14,8 @@ namespace Talabat.Infrastructure.Presistence.Data
         {
             modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly);
         }
-        public DbSet<Product> Products {get;set;}
-        public DbSet<ProductBrand> Brands {get;set;}
-        public DbSet<ProductCategory> Categories {get;set;}
+        public DbSet<Product> Products { get; set; }
+        public DbSet<ProductBrand> Brands { get; set; }
+        public DbSet<ProductCategory> Categories { get; set; }
     }
 }

@@ -1,6 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using Talabat.APIs.Extensions;
+using Talabat.APIs.Services;
+using Talabat.Core.Application.Abstraction;
 using Talabat.Core.Domain.Contracts;
 using Talabat.Infrastructure.Presistence;
 using Talabat.Infrastructure.Presistence.Data;
@@ -28,6 +30,8 @@ namespace Talabat.APIs
             webApplicationBuilder.Services.AddSwaggerGen();
 
             webApplicationBuilder.Services.AddPersistanceServices(webApplicationBuilder.Configuration);
+
+            webApplicationBuilder.Services.AddScoped(typeof(ILogedInUserService), typeof(LogedInUserService));
 
             #endregion
 
