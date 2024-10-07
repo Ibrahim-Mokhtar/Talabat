@@ -1,10 +1,19 @@
 
+using Microsoft.EntityFrameworkCore;
+using Talabat.APIs.Extensions;
+using Talabat.Core.Domain.Contracts;
+using Talabat.Infrastructure.Presistence;
+using Talabat.Infrastructure.Presistence.Data;
+
 namespace Talabat.APIs
 {
     public class Program
     {
-        public static void Main(string[] args)
+        public static async Task Main(string[] args)
         {
+
+
+
             var webApplicationBuilder = WebApplication.CreateBuilder(args);
 
             #region Configure Services
@@ -16,11 +25,17 @@ namespace Talabat.APIs
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             webApplicationBuilder.Services.AddEndpointsApiExplorer();
-            webApplicationBuilder.Services.AddSwaggerGen(); 
+            webApplicationBuilder.Services.AddSwaggerGen();
+
+            webApplicationBuilder.Services.AddPersistanceServices(webApplicationBuilder.Configuration);
 
             #endregion
 
             var app = webApplicationBuilder.Build();
+
+            #region Database Initialization
+            await app.InitializerStoreContextAsync();
+            #endregion  
 
             #region Configure Kestrel Middleware
 
@@ -36,7 +51,7 @@ namespace Talabat.APIs
             app.UseAuthorization();
 
 
-            app.MapControllers(); 
+            app.MapControllers();
 
             #endregion
 
