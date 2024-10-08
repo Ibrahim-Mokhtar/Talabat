@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
-using Talabat.Core.Domain.Contracts;
+using Talabat.Core.Domain.Contracts.Presistance;
 using Talabat.Infrastructure.Presistence.Data;
 using Talabat.Infrastructure.Presistence.Data.Interceptors;
 

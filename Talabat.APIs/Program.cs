@@ -31,6 +31,7 @@ namespace Talabat.APIs
             webApplicationBuilder.Services.AddApplicationServices();
 
             webApplicationBuilder.Services.AddScoped(typeof(ILogedInUserService), typeof(LogedInUserService));
+           
 
             #endregion
 
@@ -53,6 +54,7 @@ namespace Talabat.APIs
 
             app.UseAuthorization();
 
+            app.UseStaticFiles();
 
             app.MapControllers();
 

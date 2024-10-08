@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Talabat.Core.Application.Abstraction;
 using Talabat.Core.Application.Abstraction.Products;
 using Talabat.Core.Application.Services.Products;
-using Talabat.Core.Domain.Contracts;
+using Talabat.Core.Domain.Contracts.Presistance;
 
 namespace Talabat.Core.Application.Services
 {

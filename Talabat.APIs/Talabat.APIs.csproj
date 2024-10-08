@@ -21,4 +21,8 @@
     <ProjectReference Include="..\Talabat.Infrastructure.Presistence\Talabat.Infrastructure.Presistence.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\" />
+  </ItemGroup>
+
 </Project>

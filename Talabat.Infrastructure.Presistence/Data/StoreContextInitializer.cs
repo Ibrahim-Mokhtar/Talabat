@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Talabat.Core.Domain.Contracts;
+using Talabat.Core.Domain.Contracts.Presistance;
 using Talabat.Core.Domain.Entites.Products;
 
 namespace Talabat.Infrastructure.Presistence.Data

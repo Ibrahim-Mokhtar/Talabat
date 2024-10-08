@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Domain.Common;
-using Talabat.Core.Domain.Contracts;
+using Talabat.Core.Domain.Contracts.Presistance;
 using Talabat.Core.Domain.Entites.Products;
 using Talabat.Infrastructure.Presistence.Data;
-using Talabat.Infrastructure.Presistence.Repostorie;
+using Talabat.Infrastructure.Presistence.Repostories.Generic_Repository;
 
 namespace Talabat.Infrastructure.Presistence.UnitOfWork
 {
