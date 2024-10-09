@@ -10,13 +10,24 @@ using Talabat.Core.Application.Abstraction.Services;
 
 namespace Talabat.API.Controllers.Controllers.Products
 {
-    public class ProductController(IServiceManager serviceManager):BaseApiController
+    public class ProductController(IServiceManager serviceManager) : BaseApiController
     {
         [HttpGet] // GET : /api/Products
         public async Task<ActionResult<IEnumerable<ProductToReturnDto>>> GetProducts()
         {
             var products = await serviceManager.ProductService.GetProductsAsync();
             return Ok(products);
+        }
+
+        [HttpGet("{id:int}")] // GET : /api/Products/id
+        public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
+        {
+            var product = await serviceManager.ProductService.GetProductAsync(id);
+
+            if (product is null)
+                return NotFound(new { statusCode = 404, message = "not found." });
+
+            return Ok(product);
         }
     }
 }

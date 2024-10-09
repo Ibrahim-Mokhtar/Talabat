@@ -25,8 +25,12 @@ namespace Talabat.Infrastructure.Presistence.Repostorie
             await DbContext.Set<TEntity>().ToListAsync() :
             await DbContext.Set<TEntity>().AsTracking().ToListAsync();
         }
-        public async Task<TEntity?> GetAsync(Tkey id) => await DbContext.Set<TEntity>().FindAsync(id);
-
+        public async Task<TEntity?> GetAsync(Tkey id)
+        {
+            if (typeof(TEntity) == typeof(Product))
+                return await DbContext.Set<Product>().Where(P => P.Id.Equals(id)).Include(P => P.Brand).Include(P => P.Category).FirstOrDefaultAsync() as TEntity;
+            return await DbContext.Set<TEntity>().FindAsync(id);
+        }
         public async Task AddAsync(TEntity entity) => await DbContext.Set<TEntity>().AddAsync(entity);
 
         public async void Update(TEntity entity) => DbContext.Set<TEntity>().Update(entity);
