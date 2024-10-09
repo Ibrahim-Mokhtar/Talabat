@@ -6,8 +6,9 @@ using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Application.Abstraction.Models.Products;
 using Talabat.Core.Application.Abstraction.Services.Products;
-using Talabat.Core.Domain.Contracts;
+using Talabat.Core.Domain.Contracts.Persistence;
 using Talabat.Core.Domain.Entites.Products;
+using Talabat.Core.Domain.Specifications.Products;
 
 namespace Talabat.Core.Application.Services.Products
 {
@@ -15,7 +16,9 @@ namespace Talabat.Core.Application.Services.Products
     {
         public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync()
         {
-            var products = await unitOfWork.GetRepository<Product, int>().GetAllAsync();
+            var specs = new ProductWithBrandandCategorySpecification();
+
+            var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs);
 
             var productsToReturn = mapper.Map<IEnumerable<ProductToReturnDto>>(products);
 
