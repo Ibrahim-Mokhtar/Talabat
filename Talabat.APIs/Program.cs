@@ -1,6 +1,8 @@
 
 using Microsoft.EntityFrameworkCore;
 using Talabat.APIs.Extensions;
+using Talabat.APIs.Services;
+using Talabat.Core.Application.Abstraction;
 using Talabat.Core.Domain.Contracts;
 using Talabat.Infrastructure.Presistence;
 using Talabat.Infrastructure.Presistence.Data;
@@ -26,6 +28,9 @@ namespace Talabat.APIs
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             webApplicationBuilder.Services.AddEndpointsApiExplorer();
             webApplicationBuilder.Services.AddSwaggerGen();
+
+            webApplicationBuilder.Services.AddHttpContextAccessor();
+            webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService));
 
             webApplicationBuilder.Services.AddPersistanceServices(webApplicationBuilder.Configuration);
 
