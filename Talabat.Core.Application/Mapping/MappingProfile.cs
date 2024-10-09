@@ -17,7 +17,8 @@ namespace Talabat.Core.Application.Mapping
         {
             CreateMap<Product, ProductToReturnDto>()
                 .ForMember(s => s.Brand, O => O.MapFrom(src => src.Brand!.Name))
-                .ForMember(s => s.Category, O => O.MapFrom(src => src.Category!.Name));
+                .ForMember(s => s.Category, O => O.MapFrom(src => src.Category!.Name))
+                .ForMember(s=>s.PictureUrl,O=>O.MapFrom<ProductPictureUrlResolver>());
 
             CreateMap<ProductBrand, BrandDto>();
 
