@@ -22,7 +22,8 @@ namespace Talabat.APIs
 
             // Add services to the container.
 
-            webApplicationBuilder.Services.AddControllers(); // Register Required Services by ASP.NET Core Web APIs to DI Container
+            webApplicationBuilder.Services.AddControllers()
+                .AddApplicationPart(typeof(AssemblyInformation).Assembly); // Register Required Services by ASP.NET Core Web APIs to DI Container
 
 
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
