@@ -17,6 +17,7 @@ namespace Talabat.Infrastructure.Presistence
             });
             services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreContextInitializer));
             services.AddScoped(typeof(ISaveChangesInterceptor), typeof(CustomSaveChangesInterceptors));
+            services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork.UnitOfWork));
             return services;
         }   
     }
