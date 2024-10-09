@@ -28,7 +28,7 @@ namespace Talabat.Core.Application.Services.Employees
         {
             var spec = new EmployeeWithDepartmentSpecifications(id);
 
-            var employee = await unitOfWork.GetRepository<Employee, int>().GetWithSpecAsync(id);
+            var employee = await unitOfWork.GetRepository<Employee, int>().GetWithSpecAsync(spec);
 
             var employeeToReturn = mapper.Map<EmployeeToReturnDto>(employee);
 

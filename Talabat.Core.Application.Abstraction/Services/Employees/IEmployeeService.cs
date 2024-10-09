@@ -11,6 +11,6 @@ namespace Talabat.Core.Application.Abstraction.Services.Employees
     {
         Task<IEnumerable<EmployeeToReturnDto>> GetEmployeesAsync();
 
-        Task<EmployeeToReturnDto> GetEmployeeAsync();
+        Task<EmployeeToReturnDto> GetEmployeeAsync(int id);
     }
 }
