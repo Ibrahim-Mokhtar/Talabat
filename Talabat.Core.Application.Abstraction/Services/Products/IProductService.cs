@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Application.Abstraction.Models.Products;
 
-namespace Talabat.Core.Application.Abstraction.Services
+namespace Talabat.Core.Application.Abstraction.Services.Products
 {
     public interface IProductService
     {
