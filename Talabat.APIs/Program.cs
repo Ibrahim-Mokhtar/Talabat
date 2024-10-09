@@ -6,6 +6,7 @@ using Talabat.Core.Application.Abstraction;
 using Talabat.Core.Domain.Contracts;
 using Talabat.Infrastructure.Presistence;
 using Talabat.Infrastructure.Presistence.Data;
+using Talabat.Core.Application;
 
 namespace Talabat.APIs
 {
@@ -32,7 +33,7 @@ namespace Talabat.APIs
 
             webApplicationBuilder.Services.AddHttpContextAccessor();
             webApplicationBuilder.Services.AddScoped(typeof(ILoggedInUserService), typeof(LoggedInUserService));
-
+            webApplicationBuilder.Services.AddApplicationServices();
             webApplicationBuilder.Services.AddPersistanceServices(webApplicationBuilder.Configuration);
 
             #endregion
