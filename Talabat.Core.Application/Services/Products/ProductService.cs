@@ -27,7 +27,9 @@ namespace Talabat.Core.Application.Services.Products
 
         public async Task<ProductToReturnDto> GetProductAsync(int id)
         {
-            var product = await unitOfWork.GetRepository<Product, int>().GetAsync(id);
+
+            var specs = new ProductWithBrandandCategorySpecification(id);
+            var product = await unitOfWork.GetRepository<Product, int>().GetWithSpecAsync(specs);
             var productToReturn = mapper.Map<ProductToReturnDto>(product);
 
             return productToReturn;
