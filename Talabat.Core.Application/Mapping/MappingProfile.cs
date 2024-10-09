@@ -4,7 +4,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Talabat.Core.Application.Abstraction.Models.Employees;
 using Talabat.Core.Application.Abstraction.Models.Products;
+using Talabat.Core.Domain.Entites.Employees;
 using Talabat.Core.Domain.Entites.Products;
 
 namespace Talabat.Core.Application.Mapping
@@ -20,6 +22,9 @@ namespace Talabat.Core.Application.Mapping
             CreateMap<ProductBrand, BrandDto>();
 
             CreateMap<ProductCategory, CategoryDto>();
+            
+            CreateMap<Employee, EmployeeToReturnDto>()
+                .ForMember(s => s.Department, O => O.MapFrom(src => src.Department!.Name));
         }
     }
 }
