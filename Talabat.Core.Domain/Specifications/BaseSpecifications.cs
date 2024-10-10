@@ -17,17 +17,21 @@ namespace Talabat.Core.Domain.Specifications
         public Expression<Func<TEntity, object>>? OrderBy { get; set; } = null;
         public Expression<Func<TEntity, object>>? OrderByDesc { get; set; } = null;
 
-        public BaseSpecifications()
+        protected BaseSpecifications()
         {
-            //Criteria = null;
+            
         }
-        public BaseSpecifications (TKey id)
+        protected BaseSpecifications(Expression<Func<TEntity, bool>> criteriaExpression)
+        {
+            Criteria = criteriaExpression; // P => P.BrandId == 1 && P.CategoryId == 1
+        }
+        protected BaseSpecifications (TKey id)
         {
             Criteria = E => E.Id.Equals(id);
         }
         private protected void AddOrderBy(Expression<Func<TEntity,object>> orderByExpression)
         {
-            OrderBy = orderByExpression;
+            OrderBy = orderByExpression; // P => P.Price
         }
         private protected void AddOrderByDesc(Expression<Func<TEntity,object>> orderByDescExpression)
         {

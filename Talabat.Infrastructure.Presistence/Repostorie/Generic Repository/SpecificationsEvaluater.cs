@@ -19,10 +19,10 @@ namespace Talabat.Infrastructure.Presistence.Repostorie.Generic_Repository
         {
             var query = inputQuery; // _dbContext.Set<Product>
 
-            if(spec.Criteria is not null)
-                query=query.Where(spec.Criteria); // P => P.Id.Equals(1)
+            if(spec.Criteria is not null) // P => P.BrandId == 1 && P.CategoryId == 1
+                query =query.Where(spec.Criteria); 
 
-            // query = _dbContext.Set<Product>.Where( P => P.Id.Equals(1))
+            // query = _dbContext.Set<Product>.Where( P => P.BrandId == 1 && P.CategoryId == 1)
             // include expressions
             // 1. P => P.Brand
             // 2. P => P.Category
@@ -30,7 +30,7 @@ namespace Talabat.Infrastructure.Presistence.Repostorie.Generic_Repository
 
             if (spec.OrderBy is not null) // P => P.Price
                 query = query.OrderBy(spec.OrderBy);
-            else if (spec.OrderByDesc is not null) // P => P.Name
+            else if (spec.OrderByDesc is not null) 
                 query = query.OrderByDescending(spec.OrderByDesc);
 
             // query = _dbContext.Set<Product>().OrderByDescending(P => P.Price)
@@ -38,8 +38,8 @@ namespace Talabat.Infrastructure.Presistence.Repostorie.Generic_Repository
 
             query = spec.Includes.Aggregate(query, (currentQuery, includeExpression) => currentQuery.Include(includeExpression));
 
-            // query = _dbContext.Set<Product>().OrderByDescending(P => P.Price).Include(P => P.Brand);
-            // query = _dbContext.Set<Product>().OrderByDescending(P => P.Price).Include(P => P.Brand).Include(P => P.Category);
+            // query = _dbContext.Set<Product>().Where(P => P.BrandId == 1 && P.CategoryId == 1).OrderBy(P => P.Price).Include(P => P.Brand);
+            // query = _dbContext.Set<Product>().Where(P => P.BrandId == 1 && P.CategoryId == 1).OrderBy(P => P.Price).Include(P => P.Brand).Include(P => P.Category);
 
             return query;
         }
