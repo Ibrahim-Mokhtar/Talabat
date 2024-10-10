@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Domain.Common;
 using Talabat.Core.Domain.Contracts;
+using Talabat.Core.Domain.Entites.Products;
 
 namespace Talabat.Infrastructure.Presistence.Repostorie.Generic_Repository
 {
@@ -27,10 +28,18 @@ namespace Talabat.Infrastructure.Presistence.Repostorie.Generic_Repository
             // 2. P => P.Category
             // ...
 
+            if (spec.OrderBy is not null) // P => P.Price
+                query = query.OrderBy(spec.OrderBy);
+            else if (spec.OrderByDesc is not null) // P => P.Name
+                query = query.OrderByDescending(spec.OrderByDesc);
+
+            // query = _dbContext.Set<Product>().OrderByDescending(P => P.Price)
+
+
             query = spec.Includes.Aggregate(query, (currentQuery, includeExpression) => currentQuery.Include(includeExpression));
 
-            // query = _dbContext.Set<Product>().Include(P => P.Brand);
-            // query = _dbContext.Set<Product>().Include(P => P.Brand).Include(P => P.Category);
+            // query = _dbContext.Set<Product>().OrderByDescending(P => P.Price).Include(P => P.Brand);
+            // query = _dbContext.Set<Product>().OrderByDescending(P => P.Price).Include(P => P.Brand).Include(P => P.Category);
 
             return query;
         }
