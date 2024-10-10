@@ -1,4 +1,4 @@
-﻿using Talabat.Core.Domain.Contracts;
+﻿using Talabat.Core.Domain.Contracts.Persistence;
 
 namespace Talabat.APIs.Extensions
 {

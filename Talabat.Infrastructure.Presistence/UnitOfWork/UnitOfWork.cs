@@ -5,10 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Domain.Common;
-using Talabat.Core.Domain.Contracts;
+using Talabat.Core.Domain.Contracts.Persistence;
 using Talabat.Core.Domain.Entites.Products;
 using Talabat.Infrastructure.Presistence.Data;
-using Talabat.Infrastructure.Presistence.Repostorie;
+using Talabat.Infrastructure.Presistence.Repostorie.Generic_Repsitory;
 
 namespace Talabat.Infrastructure.Presistence.UnitOfWork
 {
@@ -24,7 +24,7 @@ namespace Talabat.Infrastructure.Presistence.UnitOfWork
         }
 
         public IGenericRepository<TEntity, TKey> GetRepository<TEntity, TKey>()
-            where TEntity : BaseEntity<TKey>
+            where TEntity : BaseAuditableEntity<TKey>
             where TKey : IEquatable<TKey>
         {
             //return new GenericRepository<TEntity, TKey>(_dbContext);
