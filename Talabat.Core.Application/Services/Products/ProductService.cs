@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Application.Abstraction.Models.Products;
 using Talabat.Core.Application.Abstraction.Services.Products;
+using Talabat.Core.Domain.Application.Abstraction.Models.Products;
 using Talabat.Core.Domain.Contracts.Persistence;
 using Talabat.Core.Domain.Entites.Products;
 using Talabat.Core.Domain.Specifications.Products;
@@ -14,9 +16,9 @@ namespace Talabat.Core.Application.Services.Products
 {
     internal class ProductService(IUnitOfWork unitOfWork, IMapper mapper) : IProductService
     {
-        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync(string? sort,int? brandId,int?categoryId)
+        public async Task<IEnumerable<ProductToReturnDto>> GetProductsAsync(ProductSpecParams specParams)
         {
-            var specs = new ProductWithBrandandCategorySpecification(sort,brandId,categoryId);
+            var specs = new ProductWithBrandandCategorySpecification(specParams.Sort,specParams.BrandId,specParams.CategoryId,specParams.PageSize,specParams.PageIndex);
 
             var products = await unitOfWork.GetRepository<Product, int>().GetAllWithSpecAsync(specs);
 

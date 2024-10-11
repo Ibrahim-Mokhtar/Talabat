@@ -10,7 +10,7 @@ namespace Talabat.Core.Domain.Specifications.Products
     public class ProductWithBrandandCategorySpecification : BaseSpecifications<Product, int>
     {
         // This Object is Created via this Constructor, Will be Used for Building the Query that Get ALL Products
-        public ProductWithBrandandCategorySpecification(string? sort, int? brandId, int? categoryId)
+        public ProductWithBrandandCategorySpecification(string? sort, int? brandId, int? categoryId,int pageSize,int pageIndex)
             : base(
                   P=>
                   ((!brandId.HasValue)||P.BrandId==brandId)
@@ -36,6 +36,12 @@ namespace Talabat.Core.Domain.Specifications.Products
                     AddOrderBy(P => P.Name);
                     break;
             }
+
+            // totalProducts = 18 ~ 20
+            // pageSize      = 5
+            // pageIndex     = 1
+            
+            ApplyPagination((pageIndex-1)*pageSize, pageSize);
 
         }
         // This Object is Created via this Constructor, Will be Used for Building the Query that Get Specific Product

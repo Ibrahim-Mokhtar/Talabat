@@ -16,6 +16,9 @@ namespace Talabat.Core.Domain.Specifications
         public List<Expression<Func<TEntity, object>>> Includes { get; set; } = new();
         public Expression<Func<TEntity, object>>? OrderBy { get; set; } = null;
         public Expression<Func<TEntity, object>>? OrderByDesc { get; set; } = null;
+        public int Skip { get; set; }
+        public int Take { get; set ; }
+        public bool IsPaginationEnabled { get; set; }
 
         protected BaseSpecifications()
         {
@@ -23,7 +26,7 @@ namespace Talabat.Core.Domain.Specifications
         }
         protected BaseSpecifications(Expression<Func<TEntity, bool>> criteriaExpression)
         {
-            Criteria = criteriaExpression; // P => P.BrandId == 1 && P.CategoryId == 1
+            Criteria = criteriaExpression; // true && true
         }
         protected BaseSpecifications (TKey id)
         {
@@ -31,7 +34,7 @@ namespace Talabat.Core.Domain.Specifications
         }
         private protected void AddOrderBy(Expression<Func<TEntity,object>> orderByExpression)
         {
-            OrderBy = orderByExpression; // P => P.Price
+            OrderBy = orderByExpression; // P => P.Name
         }
         private protected void AddOrderByDesc(Expression<Func<TEntity,object>> orderByDescExpression)
         {
@@ -39,6 +42,13 @@ namespace Talabat.Core.Domain.Specifications
         }
         private protected virtual void AddIncludes()
         {
+        }
+
+        private protected void ApplyPagination(int skip,int take)
+        {
+            IsPaginationEnabled = true;
+            Skip = skip;
+            Take = take;
         }
     }
 }
