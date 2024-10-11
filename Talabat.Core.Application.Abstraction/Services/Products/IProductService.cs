@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Talabat.Core.Application.Abstraction.Common;
 using Talabat.Core.Application.Abstraction.Models.Products;
 using Talabat.Core.Domain.Application.Abstraction.Models.Products;
 
@@ -10,7 +11,7 @@ namespace Talabat.Core.Application.Abstraction.Services.Products
 {
     public interface IProductService
     {
-        Task<IEnumerable<ProductToReturnDto>> GetProductsAsync(ProductSpecParams specParams);
+        Task<Pagination<ProductToReturnDto>> GetProductsAsync(ProductSpecParams specParams);
         Task<ProductToReturnDto> GetProductAsync(int id);
         Task<IEnumerable<BrandDto>> GetBrandsAsync();
         Task<IEnumerable<CategoryDto>> GetCategoriesAsync();

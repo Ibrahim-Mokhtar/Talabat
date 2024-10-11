@@ -41,6 +41,9 @@ namespace Talabat.Infrastructure.Presistence.Repostorie.Generic_Repsitory
         }
         public async Task<TEntity> GetWithSpecAsync(ISpecifications<TEntity, Tkey> spec)
         => await ApplySpecifications(spec).FirstOrDefaultAsync();
+
+        public async Task<int> GetCountAsync(ISpecifications<TEntity, Tkey> spec)
+        => await ApplySpecifications(spec).CountAsync();
         public async Task AddAsync(TEntity entity) => await DbContext.Set<TEntity>().AddAsync(entity);
 
         public async void Update(TEntity entity) => DbContext.Set<TEntity>().Update(entity);
