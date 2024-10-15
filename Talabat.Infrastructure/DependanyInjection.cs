@@ -6,6 +6,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Talabat.Core.Domain.Contracts.Infrastructure;
+using Talabat.Infrastructure.Basket_Repository;
 
 namespace Talabat.Infrastructure
 {
@@ -19,7 +21,7 @@ namespace Talabat.Infrastructure
                 var connectionMultiplexerObj=ConnectionMultiplexer.Connect(connectionString!);
                 return connectionMultiplexerObj;
             });
-            
+            services.AddScoped(typeof(IBasketRepository),typeof(BasketRepository));
             return services;
         }
     }

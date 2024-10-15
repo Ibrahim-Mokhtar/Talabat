@@ -35,7 +35,7 @@ namespace Talabat.Core.Application
                 var configuration = serviceProvider.GetRequiredService<IConfiguration>();
                 var basketRepository = serviceProvider.GetRequiredService<IBasketRepository>();
 
-                return new BasketServices(basketRepository, mapper, configuration);
+                return () => new BasketServices(basketRepository, mapper, configuration);
             });
             return services;
         }
