@@ -10,6 +10,7 @@ using Talabat.Core.Application;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.API.Controllers.Errors;
 using Talabat.APIs.Middlewares;
+using Talabat.Infrastructure;
 
 namespace Talabat.APIs
 {
@@ -54,6 +55,7 @@ namespace Talabat.APIs
             webApplicationBuilder.Services.AddApplicationServices();
             webApplicationBuilder.Services.AddPersistanceServices(webApplicationBuilder.Configuration);
 
+            webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
             #endregion
 
             var app = webApplicationBuilder.Build();
