@@ -6,10 +6,10 @@ using System.Threading.Tasks;
 
 namespace Talabat.Core.Application.Common.Exceptions
 {
-    public class NotFoundException:ApplicationException
+    public class BadRequestException:ApplicationException
     {
-        public NotFoundException(string name,object key)
-        :base($"{name} with ({key}) is not found")
+        public BadRequestException(string message)
+            :base(message)
         {
             
         }

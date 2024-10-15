@@ -18,7 +18,7 @@ namespace Talabat.Core.Application.Services.Basket
         public async Task<CustomerBasketDto> GetCustomerBasketAsync(string basketId)
         {
             var basket=await basketRepository.GetAsync(basketId);
-            if (basket is null) throw new NotFoundException();
+            //if (basket is null) throw new NotFoundException();
             return mapper.Map<CustomerBasketDto>(basket);
         }
 
@@ -27,14 +27,14 @@ namespace Talabat.Core.Application.Services.Basket
             var basket=mapper.Map<CustomerBasket>(customerBasket);
             var timeToLive = TimeSpan.FromDays(double.Parse(configuration.GetSection("RedisSettings")["TimeToLiveInDays"]!));
             var updatedBasket = await basketRepository.UpdateAsync(basket, timeToLive);
-            if (updatedBasket is null) throw new NotFoundException();
+            //if (updatedBasket is null) throw new NotFoundException();
             return customerBasket;
 
         }
         public async Task DeleteCustomerBasketAsync(string basketId)
         {
             var deleted = await basketRepository.DeleteAsync(basketId);
-            if(!deleted) throw new NotFoundException();
+            //if(!deleted) throw new NotFoundException();
 
         }
 

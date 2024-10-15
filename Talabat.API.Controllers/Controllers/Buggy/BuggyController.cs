@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Talabat.API.Controllers.Controllers.Exceptions;
 using Talabat.API.Controllers.Errors;
 using Talabat.APIs.Controllers.Base;
 
@@ -15,8 +14,8 @@ namespace Talabat.API.Controllers.Controllers.Buggy
         [HttpGet("notfound")] // GET : api/buggy/notfound
         public IActionResult GetNotFoundRequest()
         {
-            throw new NotFoundException();
-            //return NotFound(new ApiRespons(404)); // 404
+            //throw new NotFoundException();
+            return NotFound(new ApiRespons(404)); // 404
         }
 
         [HttpGet("servererror")] // GET : api/buggy/servererror

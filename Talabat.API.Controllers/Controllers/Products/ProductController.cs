@@ -27,9 +27,6 @@ namespace Talabat.API.Controllers.Controllers.Products
         {
             var product = await serviceManager.ProductService.GetProductAsync(id);
 
-            if (product is null)
-                return NotFound(new ApiRespons(404,$"The Product with Id:{id} is not found."));
-
             return Ok(product);
         }
 

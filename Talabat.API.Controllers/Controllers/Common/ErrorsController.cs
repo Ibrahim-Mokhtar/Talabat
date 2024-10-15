@@ -24,7 +24,7 @@ namespace Talabat.API.Controllers.Controllers.Common
                 var response = new ApiRespons((int)HttpStatusCode.NotFound, $"The requested endpoint:{Request.Path} is not found");
                 return NotFound(response);
             }
-            return StatusCode(Code);
+            return StatusCode(Code,new ApiRespons(Code));
         }
     }
 }

@@ -34,8 +34,11 @@ namespace Talabat.APIs
                     options.InvalidModelStateResponseFactory = (actionContext) =>
                     {
                         var errors = actionContext.ModelState.Where(P => P.Value!.Errors.Count() > 0)
-                                                            .SelectMany(P => P.Value!.Errors)
-                                                            .Select(P => P.ErrorMessage);
+                                                            .Select(P => new ApiValidationErrorResponse.ValidationError
+                                                            {
+                                                                Field = P.Key,
+                                                                Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
+                                                            });
                         return new BadRequestObjectResult(new ApiValidationErrorResponse() 
                         {
                         Errors=errors
@@ -76,7 +79,7 @@ namespace Talabat.APIs
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-            app.UseMiddleware<CustomExceptionHandllerMiddleware>();
+            app.UseMiddleware<ExceptionHandllerMiddleware>();
             app.UseStatusCodePagesWithReExecute("/Errors/{0}");
 
             app.MapControllers();
