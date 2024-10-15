@@ -75,6 +75,7 @@ namespace Talabat.APIs
 
             app.UseAuthorization();
             app.UseMiddleware<CustomExceptionHandllerMiddleware>();
+            app.UseStatusCodePagesWithReExecute("/Errors/{0}");
 
             app.MapControllers();
 

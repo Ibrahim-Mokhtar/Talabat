@@ -30,8 +30,10 @@ namespace Talabat.APIs.Middlewares
                 await _next(httpContext);
 
                 // Logic Executed with the Response
+
+              
             }
-            catch (Exception ex)
+             catch (Exception ex)
             {
                 ApiRespons response;
                 switch (ex)
