@@ -7,6 +7,8 @@ using Talabat.Core.Domain.Contracts;
 using Talabat.Infrastructure.Presistence;
 using Talabat.Infrastructure.Presistence.Data;
 using Talabat.Core.Application;
+using Microsoft.AspNetCore.Mvc;
+using Talabat.API.Controllers.Errors;
 
 namespace Talabat.APIs
 {
@@ -24,6 +26,21 @@ namespace Talabat.APIs
             // Add services to the container.
 
             webApplicationBuilder.Services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.SuppressModelStateInvalidFilter = false;
+                    options.InvalidModelStateResponseFactory = (actionContext) =>
+                    {
+                        var errors = actionContext.ModelState.Where(P => P.Value!.Errors.Count() > 0)
+                                                            .SelectMany(P => P.Value!.Errors)
+                                                            .Select(P => P.ErrorMessage);
+                        return new BadRequestObjectResult(new ApiValidationErrorResponse() 
+                        {
+                        Errors=errors
+                        });
+                        
+                    };
+                })
                 .AddApplicationPart(typeof(AssemblyInformation).Assembly); // Register Required Services by ASP.NET Core Web APIs to DI Container
 
 

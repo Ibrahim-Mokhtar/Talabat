@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Talabat.API.Controllers.Errors
 {
-    internal class ApiRespons
+    public class ApiRespons
     {
         public int StatusCode { get; set; }
         public string? Message { get; set; }

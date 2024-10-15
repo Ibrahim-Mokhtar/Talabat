@@ -29,7 +29,7 @@ namespace Talabat.API.Controllers.Controllers.Buggy
             return BadRequest(new ApiRespons(400)); // 400
         }
 
-        [HttpGet("badrequest/{id:int}")] // GET : api/buggy/badrequest/five
+        [HttpGet("badrequest/{id}")] // GET : api/buggy/badrequest/five
         public IActionResult GetValidationError(int id) // => 401
         {
             return Ok();
