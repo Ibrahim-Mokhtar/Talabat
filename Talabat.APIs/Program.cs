@@ -9,6 +9,7 @@ using Talabat.Infrastructure.Presistence.Data;
 using Talabat.Core.Application;
 using Microsoft.AspNetCore.Mvc;
 using Talabat.API.Controllers.Errors;
+using Talabat.APIs.Middlewares;
 
 namespace Talabat.APIs
 {
@@ -73,7 +74,7 @@ namespace Talabat.APIs
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.UseMiddleware<CustomExceptionHandllerMiddleware>();
 
             app.MapControllers();
 

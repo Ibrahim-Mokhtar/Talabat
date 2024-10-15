@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace Talabat.API.Controllers.Errors
@@ -29,6 +30,10 @@ namespace Talabat.API.Controllers.Errors
                 _ => null
             };
 
+        }
+        public override string ToString()
+        {
+            return JsonSerializer.Serialize(this, new JsonSerializerOptions { PropertyNamingPolicy = JsonNamingPolicy.CamelCase });
         }
     }
 }
