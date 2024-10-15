@@ -1,0 +1,44 @@
+﻿using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Talabat.APIs.Controllers.Base;
+
+namespace Talabat.API.Controllers.Controllers.Buggy
+{
+    public class BuggyController : BaseApiController
+    {
+        [HttpGet("notfound")] // GET : api/buggy/notfound
+        public IActionResult GetNotFoundRequest()
+        {
+            return NotFound(new { StatusCode = 404, Message = "NotFound" }); // 404
+        }
+
+        [HttpGet("servererror")] // GET : api/buggy/servererror
+        public IActionResult GetServerError()
+        {
+            throw new Exception(); // 500
+        }
+
+        [HttpGet("badrequest")] // GET : api/buggy/badrequest
+        public IActionResult GetBadRequest()
+        {
+            return BadRequest(new { StatusCode = 400, Message = "BadRequest" }); // 400
+        }
+
+        [HttpGet("badrequest/{id:int}")] // GET : api/buggy/badrequest/five
+        public IActionResult GetValidationError(int id) // => 401
+        {
+            return Ok();
+        }
+
+        [HttpGet("unauthorized")] // GET : api/buggy/unauthorized
+        public IActionResult GetUnauthorizerError()
+        {
+            return Unauthorized(new { StatusCode = 401, Message = "Unauthorized" }); // 401
+        }
+
+    }
+}
