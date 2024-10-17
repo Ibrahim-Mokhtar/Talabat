@@ -10,6 +10,6 @@ namespace Talabat.Core.Domain.Entites.Identity
     public class ApplicationUser:IdentityUser
     {
         public required string DispalyName { get; set; }
-        public Address? Address { get; set; }
+        public virtual Address? Address { get; set; }
     }
 }

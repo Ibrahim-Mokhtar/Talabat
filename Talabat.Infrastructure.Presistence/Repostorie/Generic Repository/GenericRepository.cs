@@ -13,7 +13,7 @@ using Talabat.Infrastructure.Presistence.Repostorie.Generic_Repository;
 
 namespace Talabat.Infrastructure.Presistence.Repostorie.Generic_Repsitory
 {
-    public class GenericRepository<TEntity, Tkey>(StoreContext DbContext) : IGenericRepository<TEntity, Tkey>
+    public class GenericRepository<TEntity, Tkey>(StoreDbContext DbContext) : IGenericRepository<TEntity, Tkey>
         where TEntity : BaseAuditableEntity<Tkey>
         where Tkey : IEquatable<Tkey>
     {

@@ -15,7 +15,7 @@ namespace Talabat.Core.Domain.Entites.Identity
         public required string City { get; set; }
         public required string Country { get; set; }
 
-        public int UserId { get; set; }
-        public required ApplicationUser AppUser { get; set; }
+        public required string UserId { get; set; }
+        public virtual required ApplicationUser AppUser { get; set; }
     }
 }
