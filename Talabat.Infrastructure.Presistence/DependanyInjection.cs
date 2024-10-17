@@ -2,6 +2,7 @@
 using Microsoft.EntityFrameworkCore.Diagnostics;
 using Microsoft.Extensions.DependencyInjection;
 using Talabat.Core.Domain.Contracts.Persistence;
+using Talabat.Core.Domain.Contracts.Persistence.DbInitializers;
 using Talabat.Infrastructure.Presistence._Identity;
 using Talabat.Infrastructure.Presistence.Data;
 using Talabat.Infrastructure.Presistence.Data.Interceptors;
@@ -18,7 +19,7 @@ namespace Talabat.Infrastructure.Presistence
                    optionBuilder.UseLazyLoadingProxies()
                    .UseSqlServer(configuration.GetConnectionString("StoreContext"));
                });
-            services.AddScoped(typeof(IStoreContextInitializer), typeof(StoreDbContextInitializer));
+            services.AddScoped(typeof(IStoreDbtInitializer), typeof(StoreDbInitializer));
             services.AddScoped(typeof(ISaveChangesInterceptor), typeof(CustomSaveChangesInterceptors));
             #endregion
 
@@ -28,6 +29,7 @@ namespace Talabat.Infrastructure.Presistence
                 optionBuilder.UseLazyLoadingProxies()
                 .UseSqlServer(configuration.GetConnectionString("IdentityContext"));
             });
+            services.AddScoped(typeof(IStoreIdentityDbInitializer), typeof(StoreIdentityDbInitializer));
             #endregion
 
             services.AddScoped(typeof(IUnitOfWork), typeof(UnitOfWork.UnitOfWork));

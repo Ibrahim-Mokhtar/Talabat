@@ -5,22 +5,18 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
-using Talabat.Core.Domain.Contracts.Persistence;
+using Talabat.Core.Domain.Contracts.Persistence.DbInitializers;
 using Talabat.Core.Domain.Entites.Products;
+using Talabat.Infrastructure.Presistence._Common;
 
 namespace Talabat.Infrastructure.Presistence.Data
 {
-    public class StoreDbContextInitializer(StoreDbContext DbContext) : IStoreContextInitializer
+    internal sealed class StoreDbInitializer(StoreDbContext DbContext) : DbInitializer(DbContext) ,IStoreDbtInitializer
     {
-        public async Task InitalizeAsync()
-        {
-            var pendingMigrations =await DbContext.Database.GetPendingMigrationsAsync();
-            if (pendingMigrations.Any())
-                await DbContext.Database.MigrateAsync();
-        }
 
-        public async Task SeedAsync()
+        public async override Task SeedAsync()
         {
+             
             if (!DbContext.Brands.Any())
             {
                 var brandsData = await File.ReadAllTextAsync("../Talabat.Infrastructure.Presistence/Data/Seeds/brands.json");

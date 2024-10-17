@@ -11,7 +11,7 @@ using Talabat.Infrastructure.Presistence._Identity.Config;
 
 namespace Talabat.Infrastructure.Presistence._Identity
 {
-    internal class StoreIdentityDbContext:IdentityDbContext<ApplicationUser> 
+    public class StoreIdentityDbContext:IdentityDbContext<ApplicationUser> 
     {
         public StoreIdentityDbContext(DbContextOptions<StoreIdentityDbContext> options)
             :base(options)

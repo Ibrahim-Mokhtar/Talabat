@@ -11,6 +11,10 @@ using Microsoft.AspNetCore.Mvc;
 using Talabat.API.Controllers.Errors;
 using Talabat.APIs.Middlewares;
 using Talabat.Infrastructure;
+using Talabat.Core.Domain.Entites.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Talabat.Infrastructure.Presistence._Identity;
 
 namespace Talabat.APIs
 {
@@ -59,12 +63,37 @@ namespace Talabat.APIs
             webApplicationBuilder.Services.AddPersistanceServices(webApplicationBuilder.Configuration);
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
+
+            webApplicationBuilder.Services.AddIdentity<ApplicationUser, IdentityRole>(identityOptions =>
+            {
+                identityOptions.SignIn.RequireConfirmedAccount = true;
+                identityOptions.SignIn.RequireConfirmedEmail = true;
+                identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
+
+                identityOptions.Password.RequireNonAlphanumeric = true; // $#@%
+                identityOptions.Password.RequiredUniqueChars = 2;
+                identityOptions.Password.RequiredLength = 6;
+                identityOptions.Password.RequireDigit = true;
+                identityOptions.Password.RequireLowercase = true;
+                identityOptions.Password.RequireUppercase = true;
+
+                identityOptions.User.RequireUniqueEmail = true;
+                //identityOptions.User.AllowedUserNameCharacters = "abcdenfakdjsadsa";
+
+                identityOptions.Lockout.AllowedForNewUsers = true;
+                identityOptions.Lockout.MaxFailedAccessAttempts = 5;
+                identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(12);
+
+
+
+            })
+                .AddEntityFrameworkStores<StoreIdentityDbContext>();
             #endregion
 
             var app = webApplicationBuilder.Build();
 
             #region Database Initialization
-            await app.InitializerStoreContextAsync();
+            await app.InitializeDbAsync();
             #endregion  
 
             #region Configure Kestrel Middleware
