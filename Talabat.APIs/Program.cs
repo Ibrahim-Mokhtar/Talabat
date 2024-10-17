@@ -7,6 +7,10 @@ using Talabat.Core.Domain.Contracts;
 using Talabat.Infrastructure.Presistence;
 using Talabat.Infrastructure.Presistence.Data;
 using Talabat.Core.Application;
+using Microsoft.AspNetCore.Mvc;
+using Talabat.API.Controllers.Errors;
+using Talabat.APIs.Middlewares;
+using Talabat.Infrastructure;
 
 namespace Talabat.APIs
 {
@@ -24,6 +28,24 @@ namespace Talabat.APIs
             // Add services to the container.
 
             webApplicationBuilder.Services.AddControllers()
+                .ConfigureApiBehaviorOptions(options =>
+                {
+                    options.SuppressModelStateInvalidFilter = false;
+                    options.InvalidModelStateResponseFactory = (actionContext) =>
+                    {
+                        var errors = actionContext.ModelState.Where(P => P.Value!.Errors.Count() > 0)
+                                                            .Select(P => new ApiValidationErrorResponse.ValidationError
+                                                            {
+                                                                Field = P.Key,
+                                                                Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
+                                                            });
+                        return new BadRequestObjectResult(new ApiValidationErrorResponse() 
+                        {
+                        Errors=errors
+                        });
+                        
+                    };
+                })
                 .AddApplicationPart(typeof(AssemblyInformation).Assembly); // Register Required Services by ASP.NET Core Web APIs to DI Container
 
 
@@ -36,6 +58,7 @@ namespace Talabat.APIs
             webApplicationBuilder.Services.AddApplicationServices();
             webApplicationBuilder.Services.AddPersistanceServices(webApplicationBuilder.Configuration);
 
+            webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
             #endregion
 
             var app = webApplicationBuilder.Build();
@@ -56,7 +79,8 @@ namespace Talabat.APIs
             app.UseHttpsRedirection();
 
             app.UseAuthorization();
-
+            app.UseMiddleware<ExceptionHandllerMiddleware>();
+            app.UseStatusCodePagesWithReExecute("/Errors/{0}");
 
             app.MapControllers();
 

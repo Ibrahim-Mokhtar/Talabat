@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Talabat.API.Controllers.Errors;
 using Talabat.APIs.Controllers.Base;
 using Talabat.Core.Application.Abstraction.Common;
 using Talabat.Core.Application.Abstraction.Models.Products;
@@ -25,9 +26,6 @@ namespace Talabat.API.Controllers.Controllers.Products
         public async Task<ActionResult<ProductToReturnDto>> GetProduct(int id)
         {
             var product = await serviceManager.ProductService.GetProductAsync(id);
-
-            if (product is null)
-                return NotFound(new { statusCode = 404, message = "not found." });
 
             return Ok(product);
         }
