@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
 using Talabat.Core.Application.Abstraction.Models.Auth;
+using Talabat.Core.Application.Abstraction.Services.Auth;
+using Talabat.Core.Application.Services.Auth;
 using Talabat.Core.Domain.Entites.Identity;
 using Talabat.Infrastructure.Presistence._Identity;
 
@@ -11,11 +13,13 @@ namespace Talabat.APIs.Extensions
     {
         public static IServiceCollection AddIdentityService(this IServiceCollection services,IConfiguration configuration)
         {
+            services.Configure<JWTSettings>(configuration.GetSection("JWTSettings"));
+            
             services.AddIdentity<ApplicationUser, IdentityRole>(identityOptions =>
             {
-                identityOptions.SignIn.RequireConfirmedAccount = true;
-                identityOptions.SignIn.RequireConfirmedEmail = true;
-                identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
+                //identityOptions.SignIn.RequireConfirmedAccount = true;
+                //identityOptions.SignIn.RequireConfirmedEmail = true;
+                //identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
 
                 //identityOptions.Password.RequireNonAlphanumeric = true; // $#@%
                 //identityOptions.Password.RequiredUniqueChars = 2;
@@ -33,8 +37,11 @@ namespace Talabat.APIs.Extensions
             })
             .AddEntityFrameworkStores<StoreIdentityDbContext>();
 
-            services.Configure<JWTSettings>(configuration.GetSection("JWTSettings"));
-
+            services.AddScoped(typeof(Func<IAuthService>), (serviceProvider) =>
+            {
+                return ()=>serviceProvider.GetRequiredService<IAuthService>();
+            });
+            services.AddScoped(typeof(IAuthService), typeof(AuthService));
             return services;
         }
     }

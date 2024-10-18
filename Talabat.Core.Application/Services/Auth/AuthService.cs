@@ -16,15 +16,15 @@ using Talabat.Core.Domain.Entites.Identity;
 
 namespace Talabat.Core.Application.Services.Auth
 {
-    internal class AuthService (IOptions<JWTSettings> jwtSettings,UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser>signInManager): IAuthService
+    public class AuthService (IOptions<JWTSettings> jwtSettings,UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser>signInManager): IAuthService
     {
         private readonly JWTSettings _jwtSettings=jwtSettings.Value;
         public async Task<UserDto> LoginAsync(LoginDto model)
         {
             var user=await userManager.FindByEmailAsync(model.Email);
-            if (user != null) throw new BadRequestException("Invalid Login");
+            if (user == null) throw new UnAutorizedException("Invalid Login");
             var result=await signInManager.CheckPasswordSignInAsync(user,model.Password,lockoutOnFailure:true);
-            if(!result.Succeeded) throw new BadRequestException("Invalid Login");
+            if(!result.Succeeded) throw new UnAutorizedException("Invalid Login");
             var response = new UserDto()
             {
                 Id = user.Id,
@@ -71,7 +71,7 @@ namespace Talabat.Core.Application.Services.Auth
             foreach (var role in await userManager.GetRolesAsync(user))
                 privateClaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
 
-            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("your-256-bit-secret"));
+            var authKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
 
             var toketObj = new JwtSecurityToken(
 
@@ -79,7 +79,7 @@ namespace Talabat.Core.Application.Services.Auth
                 issuer: _jwtSettings.Issuer,
                 expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
                 claims: privateClaims,
-                signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha256)
+                signingCredentials: new SigningCredentials(authKey, SecurityAlgorithms.HmacSha256Signature)
                 );
 
             return new JwtSecurityTokenHandler().WriteToken(toketObj);
