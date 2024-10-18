@@ -91,6 +91,8 @@ namespace Talabat.APIs
 
             app.MapControllers();
 
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseStaticFiles();
 

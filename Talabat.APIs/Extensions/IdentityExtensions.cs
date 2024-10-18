@@ -1,6 +1,9 @@
-﻿using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore.SqlServer.Storage.Internal;
+using Microsoft.IdentityModel.Tokens;
+using System.Text;
 using Talabat.Core.Application.Abstraction.Models.Auth;
 using Talabat.Core.Application.Abstraction.Services.Auth;
 using Talabat.Core.Application.Services.Auth;
@@ -36,6 +39,27 @@ namespace Talabat.APIs.Extensions
                 identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(12);
             })
             .AddEntityFrameworkStores<StoreIdentityDbContext>();
+
+            services.AddAuthentication(authinticationOptions =>
+            {
+                authinticationOptions.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                authinticationOptions.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+                .AddJwtBearer(options =>
+                {
+                    options.TokenValidationParameters = new TokenValidationParameters()
+                    {
+                        ValidateAudience = true,
+                        ValidateIssuer = true,
+                        ValidateLifetime = true,
+                        ValidateIssuerSigningKey = true,
+
+                        ValidAudience = configuration["JWTSettings:Audience"],
+                        ValidIssuer = configuration["JWTSettings:Issuer"],
+                        IssuerSigningKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(configuration["JWTSettings:Key"]!)),
+                        ClockSkew = TimeSpan.Zero
+                    };
+                });
 
             services.AddScoped(typeof(Func<IAuthService>), (serviceProvider) =>
             {
