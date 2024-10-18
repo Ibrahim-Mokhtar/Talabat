@@ -15,6 +15,7 @@ using Talabat.Core.Domain.Entites.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Talabat.Infrastructure.Presistence._Identity;
+using Talabat.Core.Application.Abstraction.Models.Auth;
 
 namespace Talabat.APIs
 {
@@ -43,11 +44,11 @@ namespace Talabat.APIs
                                                                 Field = P.Key,
                                                                 Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
                                                             });
-                        return new BadRequestObjectResult(new ApiValidationErrorResponse() 
+                        return new BadRequestObjectResult(new ApiValidationErrorResponse()
                         {
-                        Errors=errors
+                            Errors = errors
                         });
-                        
+
                     };
                 })
                 .AddApplicationPart(typeof(AssemblyInformation).Assembly); // Register Required Services by ASP.NET Core Web APIs to DI Container
@@ -64,30 +65,7 @@ namespace Talabat.APIs
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
 
-            webApplicationBuilder.Services.AddIdentity<ApplicationUser, IdentityRole>(identityOptions =>
-            {
-                identityOptions.SignIn.RequireConfirmedAccount = true;
-                identityOptions.SignIn.RequireConfirmedEmail = true;
-                identityOptions.SignIn.RequireConfirmedPhoneNumber = true;
-
-                //identityOptions.Password.RequireNonAlphanumeric = true; // $#@%
-                //identityOptions.Password.RequiredUniqueChars = 2;
-                //identityOptions.Password.RequiredLength = 6;
-                //identityOptions.Password.RequireDigit = true;
-                //identityOptions.Password.RequireLowercase = true;
-                //identityOptions.Password.RequireUppercase = true;
-
-                identityOptions.User.RequireUniqueEmail = true;
-                //identityOptions.User.AllowedUserNameCharacters = "abcdenfakdjsadsa";
-
-                identityOptions.Lockout.AllowedForNewUsers = true;
-                identityOptions.Lockout.MaxFailedAccessAttempts = 5;
-                identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(12);
-
-
-
-            })
-                .AddEntityFrameworkStores<StoreIdentityDbContext>();
+            webApplicationBuilder.Services.AddIdentityService(webApplicationBuilder.Configuration);
             #endregion
 
             var app = webApplicationBuilder.Build();
