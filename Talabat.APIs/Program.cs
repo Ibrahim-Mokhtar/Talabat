@@ -11,6 +11,11 @@ using Microsoft.AspNetCore.Mvc;
 using Talabat.API.Controllers.Errors;
 using Talabat.APIs.Middlewares;
 using Talabat.Infrastructure;
+using Talabat.Core.Domain.Entites.Identity;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Talabat.Infrastructure.Presistence._Identity;
+using Talabat.Core.Application.Abstraction.Models.Auth;
 
 namespace Talabat.APIs
 {
@@ -39,11 +44,11 @@ namespace Talabat.APIs
                                                                 Field = P.Key,
                                                                 Errors = P.Value!.Errors.Select(E => E.ErrorMessage)
                                                             });
-                        return new BadRequestObjectResult(new ApiValidationErrorResponse() 
+                        return new BadRequestObjectResult(new ApiValidationErrorResponse()
                         {
-                        Errors=errors
+                            Errors = errors
                         });
-                        
+
                     };
                 })
                 .AddApplicationPart(typeof(AssemblyInformation).Assembly); // Register Required Services by ASP.NET Core Web APIs to DI Container
@@ -59,12 +64,14 @@ namespace Talabat.APIs
             webApplicationBuilder.Services.AddPersistanceServices(webApplicationBuilder.Configuration);
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
+
+            webApplicationBuilder.Services.AddIdentityService(webApplicationBuilder.Configuration);
             #endregion
 
             var app = webApplicationBuilder.Build();
 
             #region Database Initialization
-            await app.InitializerStoreContextAsync();
+            await app.InitializeDbAsync();
             #endregion  
 
             #region Configure Kestrel Middleware
@@ -83,6 +90,9 @@ namespace Talabat.APIs
             app.UseStatusCodePagesWithReExecute("/Errors/{0}");
 
             app.MapControllers();
+
+            app.UseAuthentication();
+            app.UseAuthorization();
 
             app.UseStaticFiles();
 

@@ -1,14 +1,15 @@
-﻿using Talabat.Core.Domain.Contracts.Persistence;
+﻿using Talabat.Core.Domain.Contracts.Persistence.DbInitializers;
 
 namespace Talabat.APIs.Extensions
 {
     public static class InitializerExtensions
     {
-        public static async Task<WebApplication> InitializerStoreContextAsync(this WebApplication app)
+        public static async Task<WebApplication> InitializeDbAsync(this WebApplication app)
         {
             var scope = app.Services.CreateAsyncScope();
             var services = scope.ServiceProvider;
-            var storeContextInitializer = services.GetRequiredService<IStoreContextInitializer>();
+            var storeContextInitializer = services.GetRequiredService<IStoreDbtInitializer>();
+            var storeIdentityContextInitializer = services.GetRequiredService<IStoreIdentityDbInitializer>();
             // Ask Runtime Env an Object from "StoreContext" Services Explicitly 
 
             var loggerFactory = services.GetRequiredService<ILoggerFactory>();
@@ -17,6 +18,9 @@ namespace Talabat.APIs.Extensions
             {
                 await storeContextInitializer.InitalizeAsync();
                 await storeContextInitializer.SeedAsync();
+
+                await storeIdentityContextInitializer.InitalizeAsync();
+                await storeIdentityContextInitializer.SeedAsync();
             }
             catch (Exception ex)
             {

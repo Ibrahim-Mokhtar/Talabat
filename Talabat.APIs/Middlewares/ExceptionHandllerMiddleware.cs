@@ -74,6 +74,13 @@ namespace Talabat.APIs.Middlewares
                     await httpContext.Response.WriteAsync(response.ToString());
                     break;
 
+                case UnAutorizedException:
+                    httpContext.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                    httpContext.Response.ContentType = "application/json";
+                    response = new ApiRespons(401, ex.Message);
+                    await httpContext.Response.WriteAsync(response.ToString());
+                    break;
+
                 default:
                     response = _env.IsDevelopment() ?
                           response = new ApiExceptionResponse((int)HttpStatusCode.InternalServerError, ex.Message, ex.StackTrace.ToString()) :
