@@ -11,7 +11,7 @@ using Talabat.Infrastructure.Presistence.Data;
 
 namespace Talabat.Infrastructure.Presistence.Data.Migrations
 {
-    [DbContext(typeof(StoreContext))]
+    [DbContext(typeof(StoreDbContext))]
     [Migration("20241005042432_ProductModuleMigration")]
     partial class ProductModuleMigration
     {

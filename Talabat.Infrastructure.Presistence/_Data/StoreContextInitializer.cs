@@ -10,7 +10,7 @@ using Talabat.Core.Domain.Entites.Products;
 
 namespace Talabat.Infrastructure.Presistence.Data
 {
-    public class StoreContextInitializer(StoreContext DbContext) : IStoreContextInitializer
+    public class StoreContextInitializer(StoreDbContext DbContext) : IStoreContextInitializer
     {
         public async Task InitalizeAsync()
         {
