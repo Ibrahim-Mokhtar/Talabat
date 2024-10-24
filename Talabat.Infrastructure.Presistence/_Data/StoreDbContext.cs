@@ -1,5 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection;
 using Talabat.Core.Domain.Entites.Products;
+using Talabat.Infrastructure.Presistence._Common;
+using Talabat.Infrastructure.Presistence.Identity;
 
 namespace Talabat.Infrastructure.Presistence.Data
 {
@@ -11,7 +14,8 @@ namespace Talabat.Infrastructure.Presistence.Data
         }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly);
+            modelBuilder.ApplyConfigurationsFromAssembly(typeof(AssemblyInformation).Assembly,
+                 type => type.GetCustomAttribute<DbContextTypeAttribute>()?.DbContextType == typeof(StoreDbContext));
         }
         public DbSet<Product> Products {get;set;}
         public DbSet<ProductBrand> Brands {get;set;}
