@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Talabat.Core.Application.Abstraction.Services.Auth;
+using Talabat.Core.Application.Services.Auth;
 using Talabat.Core.Domain.Entites.Identity;
 using Talabat.Infrastructure.Presistence.Identity;
 
@@ -32,6 +34,12 @@ namespace Talabat.APIs.Extensions
                 identityOptions.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromHours(12);
             })
             .AddEntityFrameworkStores<StoreIdentityDbContext>();
+
+            services.AddScoped(typeof(Func<IAuthService>), (serviceProvider) =>
+            {
+                return () => serviceProvider.GetRequiredService<IAuthService>();
+            });
+            services.AddScoped(typeof(IAuthService), typeof(AuthService));
 
             return services;    
 

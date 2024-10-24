@@ -58,7 +58,32 @@ namespace Talabat.Core.Application.Services.Auth
             };
             return response;
         }
+        private async Task<string> GenerateTokenAsync(ApplicationUser user)
+        {
+            var privateClaims = new List<Claim>()
+            {
+                new Claim(ClaimTypes.PrimarySid,user.Id),
+                new Claim(ClaimTypes.Email,user.Email!),
+                new Claim(ClaimTypes.GivenName,user.DispalyName)
+            }.Union(await userManager.GetClaimsAsync(user)).ToList();
+            var roles = await userManager.GetRolesAsync(user);
+            foreach (var role in roles)
+                privateClaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
 
-       
+            var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
+            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
+
+            var toketObj = new JwtSecurityToken(
+
+                audience: "TalabatIdentity",
+                issuer: "TalabatUsers",
+                expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
+                claims: privateClaims,
+                signingCredentials:signingCredentials
+                );
+
+            return new JwtSecurityTokenHandler().WriteToken(toketObj);
+        }
+
     }
 }
