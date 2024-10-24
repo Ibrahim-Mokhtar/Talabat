@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
+using Newtonsoft.Json.Linq;
 using System;
 using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
@@ -30,7 +31,7 @@ namespace Talabat.Core.Application.Services.Auth
                 Id = user.Id,
                 DisplayName = user.DispalyName,
                 Email = user.Email!,
-                Token = "This Will be Token"
+                Token = await GenerateTokenAsync(user)
             };
             return response;
         }
@@ -54,7 +55,7 @@ namespace Talabat.Core.Application.Services.Auth
                 Id = user.Id,
                 DisplayName = user.DispalyName,
                 Email = user.Email!,
-                Token = "This Will be Token"
+                Token = await GenerateTokenAsync(user)
             };
             return response;
         }
@@ -75,11 +76,11 @@ namespace Talabat.Core.Application.Services.Auth
 
             var toketObj = new JwtSecurityToken(
 
-                audience: "TalabatIdentity",
-                issuer: "TalabatUsers",
+               audience: _jwtSettings.Audience,
+                issuer: _jwtSettings.Issuer,
                 expires: DateTime.UtcNow.AddMinutes(_jwtSettings.DurationInMinutes),
                 claims: privateClaims,
-                signingCredentials:signingCredentials
+                signingCredentials: new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256Signature)
                 );
 
             return new JwtSecurityTokenHandler().WriteToken(toketObj);
