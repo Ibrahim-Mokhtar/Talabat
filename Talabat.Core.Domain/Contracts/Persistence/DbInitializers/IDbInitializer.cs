@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Talabat.Core.Domain.Contracts.Persistence
+namespace Talabat.Core.Domain.Contracts.Persistence.DbInitializers
 {
-    public interface IStoreContextInitializer
+    public interface IDbInitializer
     {
         Task InitalizeAsync();
         Task SeedAsync();
