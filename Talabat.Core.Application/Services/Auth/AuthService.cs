@@ -17,15 +17,15 @@ using Talabat.Core.Domain.Entites.Identity;
 
 namespace Talabat.Core.Application.Services.Auth
 {
-    public class AuthService (IOptions<JWTSettings> jwtSettings,UserManager<ApplicationUser> userManager,SignInManager<ApplicationUser>signInManager): IAuthService
+    public class AuthService(IOptions<JWTSettings> jwtSettings, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : IAuthService
     {
-        private readonly JWTSettings _jwtSettings=jwtSettings.Value;
+        private readonly JWTSettings _jwtSettings = jwtSettings.Value;
         public async Task<UserDto> LoginAsync(LoginDto model)
         {
-            var user=await userManager.FindByEmailAsync(model.Email);
+            var user = await userManager.FindByEmailAsync(model.Email);
             if (user == null) throw new UnAutorizedException("Invalid Login");
-            var result=await signInManager.CheckPasswordSignInAsync(user,model.Password,lockoutOnFailure:true);
-            if(!result.Succeeded) throw new UnAutorizedException("Invalid Login");
+            var result = await signInManager.CheckPasswordSignInAsync(user, model.Password, lockoutOnFailure: true);
+            if (!result.Succeeded) throw new UnAutorizedException("Invalid Login");
             var response = new UserDto()
             {
                 Id = user.Id,
@@ -43,10 +43,10 @@ namespace Talabat.Core.Application.Services.Auth
 
                 DispalyName = model.DisplayName,
                 Email = model.Email!,
-                UserName=model.UserName,
-                PhoneNumber=model.Phone
+                UserName = model.UserName,
+                PhoneNumber = model.Phone
             };
-            var result =await userManager.CreateAsync(user,model.Password);
+            var result = await userManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded) throw new ValidationException() { Errors = result.Errors.Select(E => E.Description) };
 
@@ -67,12 +67,11 @@ namespace Talabat.Core.Application.Services.Auth
                 new Claim(ClaimTypes.Email,user.Email!),
                 new Claim(ClaimTypes.GivenName,user.DispalyName)
             }.Union(await userManager.GetClaimsAsync(user)).ToList();
-            var roles = await userManager.GetRolesAsync(user);
-            foreach (var role in roles)
+
+            foreach (var role in await userManager.GetRolesAsync(user))
                 privateClaims.Add(new Claim(ClaimTypes.Role, role.ToString()));
 
             var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
-            var signingCredentials = new SigningCredentials(symmetricSecurityKey, SecurityAlgorithms.HmacSha256);
 
             var toketObj = new JwtSecurityToken(
 
