@@ -59,6 +59,8 @@ namespace Talabat.APIs
             webApplicationBuilder.Services.AddPersistanceServices(webApplicationBuilder.Configuration);
 
             webApplicationBuilder.Services.AddInfrastructureServices(webApplicationBuilder.Configuration);
+
+            webApplicationBuilder.Services.AddIdentityService();
             #endregion
 
             var app = webApplicationBuilder.Build();
