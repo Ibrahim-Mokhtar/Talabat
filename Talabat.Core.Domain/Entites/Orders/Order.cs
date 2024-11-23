@@ -1,0 +1,24 @@
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations.Schema;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Talabat.Core.Domain.Entites.Orders
+{
+    public class Order
+    {
+        public required string BuyerEmail { get; set; }
+        public DateTime OrderDate { get; set; }
+        public OrderStatus Status { get; set; }
+        public required Address ShippingAddress { get; set; }
+        public int? DeliveryMethodId { get; set; }
+        public required DeliveryMethod DeliveryMethod { get; set; }
+
+        public virtual ICollection<OrderItem>Items { get; set; }=new HashSet<OrderItem>();
+        public decimal SubTotal { get; set; }
+        public decimal GetTotal() => SubTotal + DeliveryMethod.Cost;
+        public string PaymentIntentId { get; set; } = "";
+    }
+}
