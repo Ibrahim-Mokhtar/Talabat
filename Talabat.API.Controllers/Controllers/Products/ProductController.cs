@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,6 +14,7 @@ using Talabat.Core.Domain.Application.Abstraction.Models.Products;
 
 namespace Talabat.API.Controllers.Controllers.Products
 {
+    [Authorize(AuthenticationSchemes ="Bearer")]
     public class ProductController(IServiceManager serviceManager) : BaseApiController
     {
         [HttpGet] // GET : /api/Product
