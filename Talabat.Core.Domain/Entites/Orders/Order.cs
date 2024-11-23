@@ -14,7 +14,7 @@ namespace Talabat.Core.Domain.Entites.Orders
         public OrderStatus Status { get; set; }
         public required Address ShippingAddress { get; set; }
         public int? DeliveryMethodId { get; set; }
-        public required DeliveryMethod DeliveryMethod { get; set; }
+        public virtual DeliveryMethod? DeliveryMethod { get; set; }
 
         public virtual ICollection<OrderItem>Items { get; set; }=new HashSet<OrderItem>();
         public decimal SubTotal { get; set; }
