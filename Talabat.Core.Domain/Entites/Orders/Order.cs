@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Talabat.Core.Domain.Entites.Orders
 {
-    public class Order
+    public class Order:BaseAuditableEntity<int>
     {
         public required string BuyerEmail { get; set; }
         public DateTime OrderDate { get; set; }
