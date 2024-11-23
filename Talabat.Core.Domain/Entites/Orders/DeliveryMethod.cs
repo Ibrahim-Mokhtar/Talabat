@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Talabat.Core.Domain.Entites.Orders
 {
-    public class DeliveryMethod:BaseEntity<int>
+    public class DeliveryMethod:BaseAuditableEntity<int>
     {
         public required string ShortName { get; set; }
         public required string Description { get; set; }

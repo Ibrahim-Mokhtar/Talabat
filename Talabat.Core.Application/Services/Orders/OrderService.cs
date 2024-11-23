@@ -11,6 +11,7 @@ using Talabat.Core.Application.Common.Exceptions;
 using Talabat.Core.Domain.Contracts.Persistence;
 using Talabat.Core.Domain.Entites.Orders;
 using Talabat.Core.Domain.Entites.Products;
+using Talabat.Core.Domain.Specifications.Orders;
 
 namespace Talabat.Core.Application.Services.Orders
 {
@@ -79,19 +80,27 @@ namespace Talabat.Core.Application.Services.Orders
                 
         }
 
-        public Task<IEnumerable<DeliveryMethodDto>> GetDeliveryMethodsAsync()
+        public async Task<IEnumerable<OrderToReturnDto>> GetOrdersForUserAsync(string buyerEmail)
         {
-            throw new NotImplementedException();
+            var orderSpecs = new OrderSpecifications(buyerEmail);
+            var orders = await unitOfWork.GetRepository<Order,int>().GetAllWithSpecAsync(orderSpecs);
+
+            return mapper.Map<IEnumerable<OrderToReturnDto>>(orders);
         }
 
-        public Task<OrderToReturnDto> GetOrderByIdAsync(string buyerEmail, int orderId)
+
+        public async Task<OrderToReturnDto> GetOrderByIdAsync(string buyerEmail, int orderId)
         {
-            throw new NotImplementedException();
+            var orderSpecs=new OrderSpecifications(buyerEmail,orderId);
+            var order = await unitOfWork.GetRepository<Order, int>().GetWithSpecAsync(orderSpecs);
+            if (order is null) throw new NotFoundException(nameof(Order), orderId);
+            return mapper.Map<OrderToReturnDto>(order);
         }
 
-        public Task<IEnumerable<OrderToReturnDto>> GetOrdersForUserAsync(string buyerEmail)
+        public async Task<IEnumerable<DeliveryMethodDto>> GetDeliveryMethodsAsync()
         {
-            throw new NotImplementedException();
+            var deliveryMethods = await unitOfWork.GetRepository<DeliveryMethod, int>().GetAllAsync();
+            return mapper.Map<IEnumerable<DeliveryMethodDto>>(deliveryMethods);
         }
     }
 }
