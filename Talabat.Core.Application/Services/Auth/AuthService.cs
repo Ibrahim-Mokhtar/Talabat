@@ -20,6 +20,20 @@ namespace Talabat.Core.Application.Services.Auth
     public class AuthService(IOptions<JWTSettings> jwtSettings, UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager) : IAuthService
     {
         private readonly JWTSettings _jwtSettings = jwtSettings.Value;
+
+        public async Task<UserDto> GetCurrentUser(ClaimsPrincipal claimsPrincipal)
+        {
+            var email = claimsPrincipal.FindFirstValue(ClaimTypes.Email);
+            var user = await userManager.FindByEmailAsync(email!);
+            return new UserDto()
+            {
+                Id = user!.Id,
+                Email = user.Email!,
+                DisplayName = user.DispalyName,
+                Token =await GenerateTokenAsync(user)
+            };
+        }
+
         public async Task<UserDto> LoginAsync(LoginDto model)
         {
             var user = await userManager.FindByEmailAsync(model.Email);

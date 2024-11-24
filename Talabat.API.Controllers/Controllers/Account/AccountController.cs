@@ -26,5 +26,12 @@ namespace Talabat.API.Controllers.Controllers.Account
             return Ok(response);
         }
 
+        [HttpGet] // GET: api/Account
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            var result = await serviceManager.AuthService.GetCurrentUser(User);
+            return Ok(result);
+        }
+
     }
 }
