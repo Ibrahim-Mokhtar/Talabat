@@ -10,9 +10,9 @@ namespace Talabat.Core.Domain.Common
         where TKey : IEquatable<TKey>
     {
 
-        public string CreatedBy { get; set; } = null!;
+        public string? CreatedBy { get; set; } 
         public DateTime CreatedOn { get; set; } = DateTime.UtcNow;
-        public string LastModifiedBy { get; set; } = null!;
+        public string? LastModifiedBy { get; set; } 
         public DateTime LastModifiedOn { get; set; } = DateTime.UtcNow;
 
     }

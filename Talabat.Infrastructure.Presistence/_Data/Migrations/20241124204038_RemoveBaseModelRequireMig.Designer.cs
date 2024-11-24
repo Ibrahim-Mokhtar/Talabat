@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Talabat.Infrastructure.Presistence.Data;
 
@@ -11,9 +12,11 @@ using Talabat.Infrastructure.Presistence.Data;
 namespace Talabat.Infrastructure.Presistence.Data.Migrations
 {
     [DbContext(typeof(StoreDbContext))]
-    partial class StoreContextModelSnapshot : ModelSnapshot
+    [Migration("20241124204038_RemoveBaseModelRequireMig")]
+    partial class RemoveBaseModelRequireMig
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

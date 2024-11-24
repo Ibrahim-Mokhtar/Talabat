@@ -8,6 +8,7 @@ using Talabat.Core.Application.Abstraction.Models.Common;
 
 namespace Talabat.Core.Application.Abstraction.Models.Orders
 {
+   
     public class OrderToReturnDto
     {
         public int Id { get; set; }
