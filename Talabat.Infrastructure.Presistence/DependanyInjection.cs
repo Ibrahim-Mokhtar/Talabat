@@ -20,7 +20,7 @@ namespace Talabat.Infrastructure.Presistence
                     .UseSqlServer(configuration.GetConnectionString("StoreContext"));
                 });
             services.AddScoped(typeof(IStoreDbInitializer), typeof(StoreDbInitializer));
-            services.AddScoped(typeof(ISaveChangesInterceptor), typeof(CustomSaveChangesInterceptors));
+            //services.AddScoped(typeof(ISaveChangesInterceptor), typeof(CustomSaveChangesInterceptors));
             #endregion
 
             #region Identity Context

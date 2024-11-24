@@ -25,7 +25,7 @@ namespace Talabat.Core.Application.Services
         private readonly IMapper _mapper;
         private readonly IConfiguration _configuration;
 
-        private readonly Lazy<IOrderService> _orderService
+        private readonly Lazy<IOrderService> _orderService;
         private readonly Lazy<IProductService> _productService;
         private readonly Lazy<IEmployeeService> _employeeService;
         private readonly Lazy<IBasketServices> _basketServices;
