@@ -46,10 +46,7 @@ namespace Talabat.Core.Application.Services.Orders
                             Product=productItemOrdered,
                             Price=product.Price,
                             Quantity=item.Quantity,
-                            LastModifiedBy = "1",
-                            LastModifiedOn = DateTime.UtcNow,
-                            CreatedBy = "1",
-                            CreatedOn = DateTime.UtcNow,
+                           
                         };
                         orderItems.Add(orderItem);
                     }   
@@ -72,10 +69,6 @@ namespace Talabat.Core.Application.Services.Orders
                 Items = orderItems,
                 SubTotal = subTotal,
                 DeliveryMethodId = order.DeliveryMethodId,
-                LastModifiedBy="1",
-                LastModifiedOn=DateTime.UtcNow,
-                CreatedBy="1",
-                CreatedOn=DateTime.UtcNow,
 
             };
             await unitOfWork.GetRepository<Order, int>().AddAsync(orderToCreate);

@@ -12,22 +12,22 @@ namespace Talabat.Infrastructure.Presistence.Data.Interceptors
 {
     internal class CustomSaveChangesInterceptors(ILoggedInUserService loggedInUserService) : SaveChangesInterceptor
     {
-        public override int SavedChanges(SaveChangesCompletedEventData eventData, int result)
+        public override InterceptionResult<int> SavingChanges(DbContextEventData eventData, InterceptionResult<int> result)
         {
             UpdateEntites(eventData.Context);
-            return base.SavedChanges(eventData, result);
+            return base.SavingChanges(eventData, result);
         }
-        public override ValueTask<int> SavedChangesAsync(SaveChangesCompletedEventData eventData, int result, CancellationToken cancellationToken = default)
+        public override ValueTask<InterceptionResult<int>> SavingChangesAsync(DbContextEventData eventData, InterceptionResult<int> result, CancellationToken cancellationToken = default)
         {
             UpdateEntites(eventData.Context);
-            return base.SavedChangesAsync(eventData, result, cancellationToken);
+            return base.SavingChangesAsync(eventData, result, cancellationToken);
         }
         private void UpdateEntites(DbContext? dbContext)
         {
             if (dbContext is null)
                 return;
-            foreach(var entry in dbContext.ChangeTracker.Entries<BaseAuditableEntity<int>>()
-                .Where(entity=>entity.State is EntityState.Added or EntityState.Modified))
+            foreach (var entry in dbContext.ChangeTracker.Entries<IBaseAuditableEntity>()
+                .Where(entity => entity.State is EntityState.Added or EntityState.Modified))
             {
                 if (entry.State is EntityState.Added)
                 {
