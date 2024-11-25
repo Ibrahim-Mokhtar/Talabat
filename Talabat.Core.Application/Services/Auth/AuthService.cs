@@ -84,6 +84,20 @@ namespace Talabat.Core.Application.Services.Auth
             };
             return response;
         }
+
+        public async Task<AddressDto> UpdateUserAddress(ClaimsPrincipal claimsPrincipal,AddressDto address)
+        {
+            var updatedAddress = mapper.Map<Address>(address);
+            var user = await userManager.FindUserWithAddress(claimsPrincipal);
+            if(user?.Address is not null)
+                updatedAddress.Id=user.Address.Id;
+            user!.Address= updatedAddress;
+            var result=await userManager.UpdateAsync(user);
+            if (!result.Succeeded) throw new BadRequestException(result.Errors.Select(errors => errors.Description).Aggregate((X, Y) => $"{X}, {Y}"));
+
+            return address;
+        }
+
         private async Task<string> GenerateTokenAsync(ApplicationUser user)
         {
             var privateClaims = new List<Claim>()
