@@ -47,5 +47,12 @@ namespace Talabat.API.Controllers.Controllers.Account
             var result = await serviceManager.AuthService.UpdateUserAddress(User, address);
             return Ok(result);
         }
+
+        [HttpGet("emailexsist")]
+        public async Task<ActionResult<bool>> CheckEmailExsist(string email)
+        {
+            var result = await serviceManager.AuthService.EmailExsist(email);
+            return Ok(result);
+        }
     }
 }

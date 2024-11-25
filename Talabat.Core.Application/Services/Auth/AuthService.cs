@@ -24,6 +24,11 @@ namespace Talabat.Core.Application.Services.Auth
     {
         private readonly JWTSettings _jwtSettings = jwtSettings.Value;
 
+        public async Task<bool> EmailExsist(string email)
+        {
+            return await userManager.FindByEmailAsync(email!) is not null;
+        }
+
         public async Task<UserDto> GetCurrentUser(ClaimsPrincipal claimsPrincipal)
         {
             var email = claimsPrincipal.FindFirstValue(ClaimTypes.Email);
@@ -63,6 +68,7 @@ namespace Talabat.Core.Application.Services.Auth
 
         public async Task<UserDto> RegisterAsync(RegisterDto model)
         {
+            if (EmailExsist(model.Email).Result) throw new BadRequestException("This Email is already in use");
             var user = new ApplicationUser()
             {
 
