@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Talabat.APIs.Controllers.Base;
 using Talabat.Core.Application.Abstraction.Models.Auth;
+using Talabat.Core.Application.Abstraction.Models.Common;
 using Talabat.Core.Application.Abstraction.Services;
 
 namespace Talabat.API.Controllers.Controllers.Account
@@ -32,6 +34,12 @@ namespace Talabat.API.Controllers.Controllers.Account
             var result = await serviceManager.AuthService.GetCurrentUser(User);
             return Ok(result);
         }
-
+      
+        [HttpGet("address")] // GET: api/Account/address
+        public async Task<ActionResult<AddressDto>> GetUserAddress()
+        {
+            var result=await serviceManager.AuthService.GetUserAddress(User);
+            return Ok(result);
+        }
     }
 }

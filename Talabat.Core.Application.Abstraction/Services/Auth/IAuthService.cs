@@ -5,6 +5,7 @@ using System.Security.Claims;
 using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Application.Abstraction.Models.Auth;
+using Talabat.Core.Application.Abstraction.Models.Common;
 
 namespace Talabat.Core.Application.Abstraction.Services.Auth
 {
@@ -15,6 +16,7 @@ namespace Talabat.Core.Application.Abstraction.Services.Auth
         Task<UserDto> RegisterAsync(RegisterDto model);
 
         Task<UserDto> GetCurrentUser(ClaimsPrincipal claimsPrincipal);
+        Task<AddressDto> GetUserAddress(ClaimsPrincipal claimsPrincipal);
     }
 
 }
