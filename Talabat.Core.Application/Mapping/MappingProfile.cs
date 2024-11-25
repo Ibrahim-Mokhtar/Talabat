@@ -5,11 +5,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Talabat.Core.Application.Abstraction.Models.Basket;
+using Talabat.Core.Application.Abstraction.Models.Common;
 using Talabat.Core.Application.Abstraction.Models.Employees;
+using Talabat.Core.Application.Abstraction.Models.Orders;
 using Talabat.Core.Application.Abstraction.Models.Products;
 using Talabat.Core.Domain.Entites.Basket;
 using Talabat.Core.Domain.Entites.Employees;
+using Talabat.Core.Domain.Entites.Orders;
 using Talabat.Core.Domain.Entites.Products;
+
+using UserAddress= Talabat.Core.Domain.Entites.Identity.Address;
+using OrderAddress= Talabat.Core.Domain.Entites.Orders.Address;
 
 namespace Talabat.Core.Application.Mapping
 {
@@ -31,6 +37,17 @@ namespace Talabat.Core.Application.Mapping
 
             CreateMap<CustomerBasket,CustomerBasketDto>().ReverseMap();
             CreateMap<BasketItem, BasketItemDto>().ReverseMap();
+
+            CreateMap<Order, OrderToReturnDto>()
+                .ForMember(dest => dest.DeliveryMethod, options => options.MapFrom(src => src.DeliveryMethod.ShortName));
+            CreateMap<OrderItem, OrderItemDto>()
+                .ForMember(dest => dest.ProductId, options => options.MapFrom(src => src.Product.ProductId))
+                .ForMember(dest => dest.ProductName, options => options.MapFrom(src => src.Product.ProductName))
+                .ForMember(dest => dest.PictureUrl, options => options.MapFrom<OrderItemPictureUrlResolver>());
+
+            CreateMap<OrderAddress, AddressDto>().ReverseMap();
+            CreateMap<DeliveryMethod, DeliveryMethodDto>();
+            CreateMap<UserAddress, AddressDto>().ReverseMap();
         }
     }
 }
