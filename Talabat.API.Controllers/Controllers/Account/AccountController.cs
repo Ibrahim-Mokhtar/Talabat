@@ -1,0 +1,58 @@
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using Talabat.APIs.Controllers.Base;
+using Talabat.Core.Application.Abstraction.Models.Auth;
+using Talabat.Core.Application.Abstraction.Models.Common;
+using Talabat.Core.Application.Abstraction.Services;
+
+namespace Talabat.API.Controllers.Controllers.Account
+{
+    public class AccountController(IServiceManager serviceManager):BaseApiController
+    {
+        [HttpPost("login")] // POST: api/Account/login
+        public async Task<ActionResult<UserDto>> Login(LoginDto model)
+        {
+            var response=await serviceManager.AuthService.LoginAsync(model);
+            return Ok(response);
+        }
+
+        [HttpPost("register")] // POST: api/Account/Register
+        public async Task<ActionResult<UserDto>> Register(RegisterDto model)
+        {
+            var response=await serviceManager.AuthService.RegisterAsync(model);
+            return Ok(response);
+        }
+
+        [HttpGet] // GET: api/Account
+        public async Task<ActionResult<UserDto>> GetCurrentUser()
+        {
+            var result = await serviceManager.AuthService.GetCurrentUser(User);
+            return Ok(result);
+        }
+      
+        [HttpGet("address")] // GET: api/Account/address
+        public async Task<ActionResult<AddressDto>> GetUserAddress()
+        {
+            var result=await serviceManager.AuthService.GetUserAddress(User);
+            return Ok(result);
+        }
+        [HttpPut("address")] // PUT: /api/account/address
+        public async Task<ActionResult<AddressDto>>UpdateUserAddress(AddressDto address)
+        {
+            var result = await serviceManager.AuthService.UpdateUserAddress(User, address);
+            return Ok(result);
+        }
+
+        [HttpGet("emailexsist")]
+        public async Task<ActionResult<bool>> CheckEmailExsist(string email)
+        {
+            var result = await serviceManager.AuthService.EmailExsist(email);
+            return Ok(result);
+        }
+    }
+}
