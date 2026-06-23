@@ -7,13 +7,15 @@
 
 ## Overview
 
-Talabat API is a scalable e-commerce backend application developed using ASP.NET Core and Entity Framework Core.
+Talabat E-Commerce API is a backend application developed as part of the Route Academy Backend Development Diploma.
 
-The project simulates a modern online shopping platform that allows customers to browse products, manage baskets, place orders, and process payments while following industry-standard software architecture and design principles.
+The project simulates a modern e-commerce platform that allows customers to browse products, manage shopping baskets, place orders, and process payments through a scalable and maintainable architecture.
 
-The system is designed with maintainability, scalability, and separation of concerns in mind.
+The system was built using ASP.NET Core, Entity Framework Core, SQL Server, and Redis while applying Onion Architecture principles and industry-standard backend development practices.
 
 ---
+
+![Overview](docs/overview.png)
 
 ## Features
 
@@ -63,7 +65,7 @@ The system is designed with maintainability, scalability, and separation of conc
 
 ## Architecture
 
-The project follows Clean Architecture principles and is structured to maintain clear separation between business logic and infrastructure concerns.
+The project follows Onion Architecture principles to ensure maintainability, scalability, testability, and clear separation of concerns.
 
 ### Layers
 
@@ -76,11 +78,11 @@ The project follows Clean Architecture principles and is structured to maintain 
 
 ### Design Principles
 
+- Onion Architecture
 - Separation of Concerns
 - Dependency Injection
 - Repository Pattern
 - Specification Pattern
-- Clean Architecture
 - SOLID Principles
 
 ---
@@ -200,18 +202,22 @@ The application implements:
 
 ## Learning Outcomes
 
-Through this project, I gained practical experience in:
+Through the Route Academy Backend Development Diploma, this project provided hands-on experience with:
 
-- ASP.NET Core Development
-- RESTful API Design
+- ASP.NET Core Web API Development
+- Onion Architecture
 - Entity Framework Core
 - SQL Server
-- Redis Integration
-- Clean Architecture
+- Redis Caching
 - Repository Pattern
 - Specification Pattern
-- Authentication & Authorization
-- Software Design Principles
+- JWT Authentication & Authorization
+- RESTful API Design
+- Dependency Injection
+- SOLID Principles
+- Software Design Patterns
+- Layered Application Development
+- Real-World Backend Development Practices
 
 ---
 
@@ -229,7 +235,9 @@ Through this project, I gained practical experience in:
 
 ## License
 
-This project was developed for educational purposes as part of a Backend Development Diploma.
+This project was developed as part of the Backend Development Diploma at Route Academy.
+
+The diploma focuses on building production-ready backend applications using modern technologies, software architecture patterns, and industry best practices.
 
 ---
 
